@@ -1,0 +1,62 @@
+---
+title: Create Ubuntu Server 20 LTS on Raspberry Pi 4
+date: 26th Febrery 2024
+description: Welcome to my first blog in next.js app
+---
+## Steps
+- Mount and configure the image file onto micro sd
+- Connect to the server via ssh
+- Server upgrade and updater
+- Server Network configuration
+## Recomendations
+- Wait 5 minutes after turn on Raspberry pi 4
+- Use Micro SD A1/A2 model
+- Use this command for ssh connection error
+    - ssh-keygen -R &lt;ip&gt;
+    - ssh &lt;hostname&gt;@&lt;ip&gt;
+- After you connect to the wifi, the ip changes  then you must change the ssh connection.
+    - ssh-keygen -R &lt;ip&gt;
+    - ssh &lt;hostname&gt;@&lt;Newip&gt;
+## Video
+<center>
+  <iframe
+    src="https://www.tiktok.com/embed/v2/7340748060059880710"
+    width="605"
+    height="740"
+    frameBorder="0"
+    allowFullScreen
+  ></iframe>
+</center>
+---
+## Mount and configure the image file onto micro sd
+Use the following commands for this step:
+- format the micro sd card
+- Install
+<a href="https://www.raspberrypi.com/software/">Raspberry Pi Imager </a>
+- Open Raspberry Pi Imager
+- Install Ubuntu Server 20.04.2 LTS
+## Connect to the server via ssh
+- Putting micro sd inside Raspberry Pi 4
+- Power up the Raspberry Pi 4
+- Wait 5 minutes after turn on Raspberry pi 4
+- Open Terminal
+- Use the following commands for this step:
+    - ssh server-devguty22@server-devguty22
+- Put password and enter
+## Server upgrade and updater
+Use the following commands for this step:
+- df -h
+- sudo apt-get update
+- sudo apt-get upgrade
+- Wait
+## Server Network configuration
+Use the following commands for this step:
+- sudo apt  install network-manager
+- Verify
+    - nmcli d
+- activate wifi
+    - sudo nmcli r wifi on
+- list all Wifi networks
+    - nmcli d wifi list
+- connect wifi only 2.4Ghz
+    - sudo nmcli d wifi connect &lt;my_wifi&gt; password &lt;password&gt;
