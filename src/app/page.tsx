@@ -7,21 +7,27 @@ import Link from "next/link";
 export default function Home() {
   const blogDir  = "src/blogs";
   const currentDirectory = process.cwd()
-  const files = fs.readdirSync(path.join(currentDirectory, blogDir));
-  // console.log(files)
-  const blogs =  files.map(filename =>{
-    
-    const fileContent = fs.readFileSync(path.join(blogDir, filename), 'utf-8')
 
+  const foldersBlog = fs.readdirSync(path.join(currentDirectory, blogDir))
+                        .filter(filename => !filename.endsWith('.mdx'));
 
-    const {data: frontMatter} = matter(fileContent);
-    console.log(filename)
-    return {
-      meta: frontMatter,
-      slug: filename.replace('.mdx', '')
-    }
+  const blogIntoFolder = foldersBlog
+    .filter(filenameIntoBlog => !filenameIntoBlog.endsWith('.mdx'))
+    .map(filenameIntoBlog => {
+      const filesIntoBlog = fs.readdirSync(path.join(currentDirectory, `${blogDir}/${filenameIntoBlog}`));
+      return filesIntoBlog
+        .filter(filename => filename.endsWith('.mdx'))
+        .map(filename =>{
+          const fileContent = fs.readFileSync(path.join(`${blogDir}/${filenameIntoBlog}`, filename), 'utf-8')
+          const {data: frontMatter} = matter(fileContent);
+          return {
+            folderBlog: `${filenameIntoBlog}`,
+            meta: frontMatter,
+            slug: filename.replace('.mdx', '')
+          }
+        })
+    })
 
-  })
 
   return (
     <main>
@@ -34,23 +40,26 @@ export default function Home() {
         </h2>
       </section>
       <div>
-        {blogs.map(blog =>(
-          <Link href={'/blogs/' + blog.slug} passHref key={blog.slug}>
-            <div className='py-2 flex justify-between align-middle gap-2'>
-              <div>
-                <h3 className='text-lg font-blod'>
-                  {blog.meta.title}
-                </h3>
-                <div>
-                  <p className='text-gray-400'>{blog.meta.description}</p>
+        {blogIntoFolder.map(folder => (
+            folder.map(blog =>(
+              <Link href={`/blogs/${blog.folderBlog}/` + blog.slug} passHref key={blog.slug}>
+                <div className='py-2 flex justify-between align-middle gap-2'>
+                  <div>
+                    <h3 className='text-lg font-blod'>
+                      {blog.meta.title}
+                    </h3>
+                    <div>
+                      <p className='text-gray-400'>{blog.meta.description}</p>
+                    </div>
+                    <div className='my-auto text-gray-400'>
+                      <p>{blog.meta.date}</p>
+                    </div>
+                  </div> 
                 </div>
-                <div className='my-auto text-gray-400'>
-                  <p>{blog.meta.date}</p>
-                </div>
-              </div> 
-            </div>
-          </Link>
-        ))}
+              </Link>
+            ))
+          ))
+        }
       </div>
     </main>
   );

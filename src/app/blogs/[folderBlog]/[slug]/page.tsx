@@ -15,9 +15,9 @@ export async function generateStaticParams(){
     return paths
 }
 
-function getPost({slug}: {slug: string}){
-
-    const markdownFile = fs.readFileSync(path.join('src/blogs', slug + '.mdx'), 'utf-8')
+function getPost({folderBlog,slug}: {folderBlog:string,slug: string}){
+    // console.log(`folderBlog: ${folderBlog}`)
+    const markdownFile = fs.readFileSync(path.join(`src/blogs/${folderBlog}`, slug + '.mdx'), 'utf-8')
 
     const{data: fontMatter, content} = matter(markdownFile)
 
@@ -29,8 +29,8 @@ function getPost({slug}: {slug: string}){
 
 }
 
-
 export default function Page({ params } :any){
+    
     const props = getPost( params);
 
     return (
