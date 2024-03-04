@@ -1,8 +1,52 @@
 ---
+
 title: Install Docker on Ubuntu Server
 date: 03 march 2024
 description: Install Docker on Ubuntu Server 20.04 LTS on rapsberry pi 4
----
-This is my **second** blog post using *markdown*
 
-### My subheading for second blog
+---
+
+## Video
+<center>
+  <iframe
+    src="https://www.tiktok.com/embed/v2/7342580045409438981"
+    width="605"
+    height="740"
+    frameBorder="0"
+    allowFullScreen
+  ></iframe>
+</center>
+
+---
+
+## Steps
+- Connect to your server using ssh
+- Use the following command to install Docker
+  <ul>
+    <li> ssh &lt;hostname&gt;@&lt;ip&gt; </li>
+    <li> ssh server-devguty22@192.168.0.19 </li>
+    <li> run this commnad to clean up any imcopatibility problemas </li>
+    <ul>
+      <li>  
+        ``` bash 
+        for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done 
+        ```
+      </li>
+    </ul>
+    <li> sudo apt-get update </li>
+    <li> sudo apt-get install ca-certificates curl </li>
+    <li> sudo install -m 0755 -d /etc/apt/keyrings </li>
+    <li> sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc </li>
+    <li> sudo chmod a+r /etc/apt/keyrings/docker.asc </li>
+    <li>
+    ``` bash
+    echo \
+    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+    $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+    sudo tee /etc/apt/sources.list.d/docker.list > /dev/null 
+    ```
+    </li>
+    <li> sudo apt-get update </li>
+    <li> sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin </li>
+    <li> sudo docker run hello-world </li>
+  </ul>
